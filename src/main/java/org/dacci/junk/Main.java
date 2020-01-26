@@ -2,12 +2,13 @@ package org.dacci.junk;
 
 import java.util.ArrayDeque;
 import org.dacci.junk.json.JsonCommands;
+import org.dacci.junk.yaml.YamlCommands;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 @Command(
     name = "junk",
-    subcommands = {JsonCommands.class})
+    subcommands = {JsonCommands.class, YamlCommands.class})
 public class Main implements Runnable {
 
   public interface CommandGroup extends Runnable {

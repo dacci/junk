@@ -5,5 +5,5 @@ import picocli.CommandLine.Command;
 
 @Command(
     name = "json",
-    subcommands = {SortConfig.class})
+    subcommands = {SortConfig.class, FromYaml.class})
 public class JsonCommands implements CommandGroup {}

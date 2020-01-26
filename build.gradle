@@ -18,6 +18,8 @@ dependencies {
 
   implementation 'info.picocli:picocli:4.1.4'
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.2'
+  implementation 'org.yaml:snakeyaml:1.25'
+  implementation 'commons-io:commons-io:2.6'
 
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
