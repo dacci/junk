@@ -27,6 +27,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
@@ -63,6 +64,63 @@ public class CloudFormationConstructor extends Constructor {
     yamlConstructors.put(REF, (Construct) this::constructRef);
   }
 
+  @Override
+  protected Object constructObject(Node node) {
+    if (node.getNodeId() == NodeId.mapping
+        && !node.getTag().isSecondary()
+        && ((MappingNode) node).getValue().size() == 1) {
+      var tuple = ((MappingNode) node).getValue().get(0);
+      var key = ((ScalarNode) tuple.getKeyNode()).getValue();
+
+      switch (key) {
+        case "Fn::Base64":
+          return constructBase64(tuple.getValueNode());
+
+        case "Fn::Cidr":
+          return constructCidr(tuple.getValueNode());
+
+        case "Fn::And":
+        case "Fn::Equals":
+        case "Fn::If":
+        case "Fn::Not":
+        case "Fn::Or":
+          return constructConditional(key.substring(4), tuple.getValueNode());
+
+        case "Fn::FindInMap":
+          return constructFindInMap(tuple.getValueNode());
+
+        case "Fn::GetAtt":
+          return constructGetAtt(tuple.getValueNode());
+
+        case "Fn::GetAZs":
+          return constructGetAZs(tuple.getValueNode());
+
+        case "Fn::ImportValue":
+          return constructImportValue(tuple.getValueNode());
+
+        case "Fn::Join":
+          return constructJoin(tuple.getValueNode());
+
+        case "Fn::Select":
+          return constructSelect(tuple.getValueNode());
+
+        case "Fn::Split":
+          return constructSplit(tuple.getValueNode());
+
+        case "Fn::Sub":
+          return constructSub(tuple.getValueNode());
+
+        case "Fn::Transform":
+          return constructTransform(tuple.getValueNode());
+
+        case "Ref":
+          return constructRef(tuple.getValueNode());
+      }
+    }
+
+    return super.constructObject(node);
+  }
+
   private int parseInt(Object value) {
     if (value instanceof Number) {
       return ((Number) value).intValue();
@@ -92,8 +150,8 @@ public class CloudFormationConstructor extends Constructor {
     return new Cidr(sequence.get(0), count, cidrBits);
   }
 
-  private Object constructConditional(Node node) {
-    switch (node.getTag().getValue().substring(1)) {
+  private Object constructConditional(String tag, Node node) {
+    switch (tag) {
       case "And":
         return new And(constructSequence((SequenceNode) node));
 
@@ -110,8 +168,12 @@ public class CloudFormationConstructor extends Constructor {
         return new Or(constructSequence((SequenceNode) node));
 
       default:
-        throw new YAMLException("Unexpected node: " + node.getNodeId());
+        throw new YAMLException("Unexpected conditional: " + tag);
     }
+  }
+
+  private Object constructConditional(Node node) {
+    return constructConditional(node.getTag().getValue().substring(1), node);
   }
 
   private Object constructFindInMap(Node node) {
@@ -120,8 +182,15 @@ public class CloudFormationConstructor extends Constructor {
   }
 
   private Object constructGetAtt(Node node) {
-    var pair = constructScalar((ScalarNode) node).split("\\.", 2);
-    return new GetAtt(pair[0], pair[1]);
+    if (node instanceof ScalarNode) {
+      var pair = constructScalar((ScalarNode) node).split("\\.", 2);
+      return new GetAtt(pair[0], pair[1]);
+    } else if (node instanceof SequenceNode) {
+      var sequence = constructSequence((SequenceNode) node);
+      return new GetAtt((String) sequence.get(0), (String) sequence.get(1));
+    }
+
+    throw new YAMLException("Unexpected node: " + node.getNodeId());
   }
 
   private Object constructGetAZs(Node node) {
@@ -169,7 +238,7 @@ public class CloudFormationConstructor extends Constructor {
   private Object constructTransform(Node node) {
     var mapping = constructMapping((MappingNode) node);
     @SuppressWarnings("unchecked")
-    var parameters = (Map<String, Object>) mapping.get("Parameters");
+    var parameters = (Map<String, ?>) mapping.get("Parameters");
     return new Transform((String) mapping.get("Name"), parameters);
   }
 
