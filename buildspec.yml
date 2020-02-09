@@ -8,6 +8,12 @@ phases:
     commands:
       - ./gradlew build
 
+reports:
+  junit:
+    files:
+      - '*'
+    base-directory: build/test-results/test
+
 artifacts:
   files:
     - '*'
