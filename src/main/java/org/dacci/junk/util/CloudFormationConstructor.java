@@ -187,7 +187,7 @@ public class CloudFormationConstructor extends Constructor {
       return new GetAtt(pair[0], pair[1]);
     } else if (node instanceof SequenceNode) {
       var sequence = constructSequence((SequenceNode) node);
-      return new GetAtt((String) sequence.get(0), (String) sequence.get(1));
+      return new GetAtt(sequence.get(0), (String) sequence.get(1));
     }
 
     throw new YAMLException("Unexpected node: " + node.getNodeId());
@@ -208,7 +208,7 @@ public class CloudFormationConstructor extends Constructor {
 
   private Object constructSelect(Node node) {
     var sequence = constructSequence((SequenceNode) node);
-    return new Select(parseInt(sequence.get(0)), (List<?>) sequence.get(1));
+    return new Select(parseInt(sequence.get(0)), sequence.get(1));
   }
 
   private Object constructSplit(Node node) {

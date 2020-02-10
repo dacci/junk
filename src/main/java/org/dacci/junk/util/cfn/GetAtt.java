@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class GetAtt {
-  private String resource;
+  private Object resource;
   private String attribute;
 }
