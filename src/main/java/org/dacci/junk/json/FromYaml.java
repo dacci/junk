@@ -10,24 +10,34 @@ import java.nio.file.Path;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.dacci.junk.util.CloudFormationModule;
+import org.dacci.junk.util.CloudFormationYaml;
 import org.dacci.junk.util.JsonStringifyPrettyPrinter;
 import org.yaml.snakeyaml.Yaml;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command(name = "from-yaml")
 @Slf4j
 public class FromYaml implements Runnable {
-  private static final Yaml YAML = new Yaml();
   private static final ObjectMapper JSON =
       new ObjectMapper()
           .setDefaultPrettyPrinter(JsonStringifyPrettyPrinter.builder().build())
           .enable(SerializationFeature.INDENT_OUTPUT);
 
-  private static void processFile(Path file) {
+  @Option(names = "--cfn")
+  private boolean cfn;
+
+  @Parameters(arity = "1..")
+  private List<Path> files;
+
+  private Yaml yaml;
+
+  private void processFile(Path file) {
     Object value;
     try (var reader = Files.newBufferedReader(file, UTF_8)) {
-      value = YAML.load(reader);
+      value = yaml.load(reader);
     } catch (Exception e) {
       log.error("Failed to load", e);
       return;
@@ -44,11 +54,11 @@ public class FromYaml implements Runnable {
     }
   }
 
-  @Parameters(arity = "1..")
-  private List<Path> files;
-
   @Override
   public void run() {
-    files.parallelStream().forEach(FromYaml::processFile);
+    yaml = cfn ? new CloudFormationYaml() : new Yaml();
+    if (cfn) JSON.registerModule(CloudFormationModule.getInstance());
+
+    files.parallelStream().forEach(this::processFile);
   }
 }
