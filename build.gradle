@@ -21,6 +21,7 @@ dependencies {
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.2'
   implementation 'org.yaml:snakeyaml:1.25'
   implementation 'commons-io:commons-io:2.6'
+  implementation 'org.apache.maven:maven-model:3.6.3'
 
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
   testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.0'
