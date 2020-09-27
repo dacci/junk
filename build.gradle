@@ -3,41 +3,41 @@ plugins {
   id 'application'
   id 'jacoco'
 
-  id 'io.freefair.lombok' version '4.1.6'
-  id 'com.diffplug.gradle.spotless' version '3.27.1'
-  id 'net.ltgt.errorprone' version '1.1.1'
-  id 'com.github.johnrengelman.shadow' version '5.2.0'
+  id 'com.diffplug.spotless' version '5.6.1'
+  id 'net.ltgt.errorprone' version '1.2.1'
+  id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
+sourceCompatibility = '11'
+
 repositories {
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
-  implementation 'org.slf4j:slf4j-api:1.7.30'
-  runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
+  implementation platform('com.fasterxml.jackson:jackson-bom:2.11.2')
+  implementation platform('org.junit:junit-bom:5.7.0')
 
-  implementation 'info.picocli:picocli:4.1.4'
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.2'
-  implementation 'org.yaml:snakeyaml:1.25'
-  implementation 'commons-io:commons-io:2.6'
+  implementation 'info.picocli:picocli:4.5.1'
+  implementation 'com.fasterxml.jackson.core:jackson-databind'
+  implementation 'org.yaml:snakeyaml:1.27'
+  implementation 'commons-io:commons-io:2.8.0'
   implementation 'org.apache.maven:maven-model:3.6.3'
 
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-  testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.0'
+  implementation 'org.slf4j:slf4j-api:1.7.30'
+  runtimeOnly('ch.qos.logback:logback-classic:1.2.3') {
+    exclude group: 'com.sun.mail', module: 'javax.mail'
+  }
+
+  compileOnly 'org.projectlombok:lombok:1.18.12'
+  annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+  testImplementation 'org.junit.jupiter:junit-jupiter-api'
+  testImplementation 'org.junit.jupiter:junit-jupiter-params'
   testImplementation 'org.hamcrest:hamcrest-core:2.2'
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
-  errorprone 'com.google.errorprone:error_prone_core:2.3.4'
-}
-
-java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
-}
-
-application {
-  mainClassName = 'org.dacci.junk.Main'
+  errorprone 'com.google.errorprone:error_prone_core:2.4.0'
 }
 
 spotless {
@@ -46,8 +46,14 @@ spotless {
     importOrderFile "$rootDir/dacci.importorder"
   }
 }
-compileJava.dependsOn('spotlessJavaApply')
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
 test {
   useJUnitPlatform()
+}
+
+application {
+  mainClassName = 'org.dacci.junk.Main'
 }
