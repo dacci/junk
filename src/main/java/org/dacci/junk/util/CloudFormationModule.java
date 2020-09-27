@@ -1,10 +1,12 @@
 package org.dacci.junk.util;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
+
 import org.dacci.junk.util.cfn.Base64;
 import org.dacci.junk.util.cfn.Cidr;
 import org.dacci.junk.util.cfn.Conditional;

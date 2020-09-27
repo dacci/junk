@@ -3,12 +3,13 @@ package org.dacci.junk.util;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import org.dacci.junk.util.cfn.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.yaml.snakeyaml.Yaml;
+
+import org.dacci.junk.util.cfn.*;
 
 public class CloudFormationConstructorTest {
   private static Yaml yaml;

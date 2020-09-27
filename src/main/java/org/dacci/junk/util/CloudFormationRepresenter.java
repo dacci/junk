@@ -5,6 +5,12 @@ import static org.dacci.junk.util.CloudFormationYaml.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
+
 import org.dacci.junk.util.cfn.And;
 import org.dacci.junk.util.cfn.Base64;
 import org.dacci.junk.util.cfn.Cidr;
@@ -23,10 +29,6 @@ import org.dacci.junk.util.cfn.Select;
 import org.dacci.junk.util.cfn.Split;
 import org.dacci.junk.util.cfn.Sub;
 import org.dacci.junk.util.cfn.Transform;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Representer;
 
 public class CloudFormationRepresenter extends Representer {
   private final DumperOptions dumperOptions;

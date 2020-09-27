@@ -1,6 +1,7 @@
 package org.dacci.junk.util.cfn;
 
 import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

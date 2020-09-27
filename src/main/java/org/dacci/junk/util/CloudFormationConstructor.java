@@ -6,6 +6,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.nodes.MappingNode;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
+
 import org.dacci.junk.util.cfn.And;
 import org.dacci.junk.util.cfn.Base64;
 import org.dacci.junk.util.cfn.Cidr;
@@ -23,13 +32,6 @@ import org.dacci.junk.util.cfn.Select;
 import org.dacci.junk.util.cfn.Split;
 import org.dacci.junk.util.cfn.Sub;
 import org.dacci.junk.util.cfn.Transform;
-import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.nodes.MappingNode;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeId;
-import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.SequenceNode;
 
 public class CloudFormationConstructor extends Constructor {
   @FunctionalInterface

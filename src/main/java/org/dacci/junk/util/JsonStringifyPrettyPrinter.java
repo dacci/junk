@@ -1,9 +1,11 @@
 package org.dacci.junk.util;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.Instantiatable;
-import java.io.IOException;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

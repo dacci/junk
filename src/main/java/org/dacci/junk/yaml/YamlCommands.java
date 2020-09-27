@@ -1,9 +1,7 @@
 package org.dacci.junk.yaml;
 
 import java.util.TimeZone;
-import lombok.Data;
-import org.dacci.junk.Main.CommandGroup;
-import org.dacci.junk.util.CloudFormationYaml;
+
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.LineBreak;
@@ -11,6 +9,11 @@ import org.yaml.snakeyaml.DumperOptions.NonPrintableStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.Yaml;
+
+import org.dacci.junk.Main.CommandGroup;
+import org.dacci.junk.util.CloudFormationYaml;
+
+import lombok.Data;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

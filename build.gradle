@@ -43,6 +43,7 @@ application {
 spotless {
   java {
     googleJavaFormat()
+    importOrderFile "$rootDir/dacci.importorder"
   }
 }
 compileJava.dependsOn('spotlessJavaApply')

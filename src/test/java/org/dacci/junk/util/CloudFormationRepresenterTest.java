@@ -6,12 +6,14 @@ import static org.hamcrest.Matchers.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import org.dacci.junk.util.cfn.*;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.yaml.snakeyaml.Yaml;
+
+import org.dacci.junk.util.cfn.*;
 
 public class CloudFormationRepresenterTest {
   private static Yaml yaml;
