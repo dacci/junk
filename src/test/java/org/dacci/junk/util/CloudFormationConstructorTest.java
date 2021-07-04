@@ -157,6 +157,10 @@ public class CloudFormationConstructorTest {
       assertThat(actual, hasProperty("delimiter", is(":")));
       assertThat(actual, hasProperty("values", hasItems("a", "b", "c")));
     }
+    {
+      var actual = yaml.load("!Join ['', !Ref SecurityGroupId]");
+      assertThat(actual, instanceOf(Join.class));
+    }
   }
 
   @Test
