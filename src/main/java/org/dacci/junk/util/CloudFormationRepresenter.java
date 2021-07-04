@@ -14,6 +14,7 @@ import org.yaml.snakeyaml.representer.Representer;
 import org.dacci.junk.util.cfn.And;
 import org.dacci.junk.util.cfn.Base64;
 import org.dacci.junk.util.cfn.Cidr;
+import org.dacci.junk.util.cfn.Condition;
 import org.dacci.junk.util.cfn.Conditional;
 import org.dacci.junk.util.cfn.Equals;
 import org.dacci.junk.util.cfn.FindInMap;
@@ -62,6 +63,7 @@ public class CloudFormationRepresenter extends Representer {
     representers.put(Sub.class, (Represent) this::representSub);
     representers.put(Transform.class, (Represent) this::representTransform);
     representers.put(Ref.class, (Represent) this::representRef);
+    representers.put(Condition.class, (Represent) this::representCondition);
   }
 
   private boolean isScalar(Object value) {
@@ -210,5 +212,10 @@ public class CloudFormationRepresenter extends Representer {
 
   private Node representRef(Object data) {
     return representScalar(REF, ((Ref) data).getReference(), dumperOptions.getDefaultScalarStyle());
+  }
+
+  private Node representCondition(Object data) {
+    return representScalar(
+        CONDITION, ((Condition) data).getCondition(), dumperOptions.getDefaultScalarStyle());
   }
 }

@@ -248,4 +248,12 @@ public class CloudFormationConstructorTest {
       assertThat(actual, hasProperty("reference", is("logicalName")));
     }
   }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"!Condition someCondition", "Condition: someCondition"})
+  public void testCondition(String expression) {
+    var actual = yaml.load(expression);
+    assertThat(actual, instanceOf(Condition.class));
+    assertThat(actual, hasProperty("condition", is("someCondition")));
+  }
 }

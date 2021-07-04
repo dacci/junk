@@ -18,6 +18,7 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.dacci.junk.util.cfn.And;
 import org.dacci.junk.util.cfn.Base64;
 import org.dacci.junk.util.cfn.Cidr;
+import org.dacci.junk.util.cfn.Condition;
 import org.dacci.junk.util.cfn.Equals;
 import org.dacci.junk.util.cfn.FindInMap;
 import org.dacci.junk.util.cfn.GetAZs;
@@ -64,6 +65,7 @@ public class CloudFormationConstructor extends Constructor {
     yamlConstructors.put(SUB, (Construct) this::constructSub);
     yamlConstructors.put(TRANSFORM, (Construct) this::constructTransform);
     yamlConstructors.put(REF, (Construct) this::constructRef);
+    yamlConstructors.put(CONDITION, (Construct) this::constructCondition);
   }
 
   @Override
@@ -117,6 +119,9 @@ public class CloudFormationConstructor extends Constructor {
 
         case "Ref":
           return constructRef(tuple.getValueNode());
+
+        case "Condition":
+          return constructCondition(tuple.getValueNode());
       }
     }
 
@@ -246,5 +251,9 @@ public class CloudFormationConstructor extends Constructor {
 
   private Object constructRef(Node node) {
     return new Ref(constructScalar((ScalarNode) node));
+  }
+
+  private Object constructCondition(Node node) {
+    return new Condition(constructScalar((ScalarNode) node));
   }
 }

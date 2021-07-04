@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import org.dacci.junk.util.cfn.Base64;
 import org.dacci.junk.util.cfn.Cidr;
+import org.dacci.junk.util.cfn.Condition;
 import org.dacci.junk.util.cfn.Conditional;
 import org.dacci.junk.util.cfn.FindInMap;
 import org.dacci.junk.util.cfn.GetAZs;
@@ -298,6 +299,24 @@ public class CloudFormationModule extends SimpleModule {
     }
   }
 
+  private static class ConditionSerializer extends StdSerializer<Condition> {
+    public ConditionSerializer() {
+      this(null);
+    }
+
+    public ConditionSerializer(Class<Condition> t) {
+      super(t);
+    }
+
+    @Override
+    public void serialize(Condition value, JsonGenerator gen, SerializerProvider provider)
+        throws IOException {
+      gen.writeStartObject();
+      gen.writeObjectField("Condition", value.getCondition());
+      gen.writeEndObject();
+    }
+  }
+
   private static class Holder {
     public static final CloudFormationModule INSTANCE = new CloudFormationModule();
   }
@@ -320,5 +339,6 @@ public class CloudFormationModule extends SimpleModule {
     addSerializer(Sub.class, new SubSerializer());
     addSerializer(Transform.class, new TransformSerializer());
     addSerializer(Ref.class, new RefSerializer());
+    addSerializer(Condition.class, new ConditionSerializer());
   }
 }

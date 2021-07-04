@@ -164,4 +164,10 @@ public class CloudFormationRepresenterTest {
     var actual = yaml.dump(new Ref("logicalName"));
     assertThat(actual, is("!Ref 'logicalName'\n"));
   }
+
+  @Test
+  public void testCondition() {
+    var actual = yaml.dump(new Condition("someCondition"));
+    assertThat(actual, is("!Condition 'someCondition'\n"));
+  }
 }

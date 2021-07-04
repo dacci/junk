@@ -23,6 +23,7 @@ public class CloudFormationYaml extends Yaml {
   public static final Tag SUB = new Tag("!Sub");
   public static final Tag TRANSFORM = new Tag("!Transform");
   public static final Tag REF = new Tag("!Ref");
+  public static final Tag CONDITION = new Tag("!Condition");
 
   public CloudFormationYaml() {
     this(new DumperOptions(), new LoaderOptions());

@@ -134,4 +134,11 @@ public class CloudFormationModuleTest {
     var actual = json.writeValueAsString(data);
     assertThat(actual, is("{\"Ref\":\"logicalName\"}"));
   }
+
+  @Test
+  public void testCondition() throws JsonProcessingException {
+    var condition = new Condition("someCondition");
+    var actual = json.writeValueAsString(condition);
+    assertThat(actual, is("{\"Condition\":\"someCondition\"}"));
+  }
 }
